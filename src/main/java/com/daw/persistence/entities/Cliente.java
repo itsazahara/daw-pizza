@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,5 +46,9 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Pedido> pedidos;
+	
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Direccion> direcciones;
 
 }

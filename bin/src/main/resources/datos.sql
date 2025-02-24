@@ -43,10 +43,3 @@ INSERT INTO pizza_pedido (cantidad, id_pedido, id_pizza, precio) VALUES
 (1, 4, 1, 10.50),
 (1, 5, 7, 14.00),
 (1, 5, 3, 11.50);
-
--- Insertar datos para direccion
-INSERT INTO direccion (calle, numero, ciudad, activa, id_cliente) VALUES 
-('Calle 123', '10A', 'Madrid', true, 1),
-('Calle 456', '20B', 'Barcelona', false, 1),
-('Avenida Principal', '5C', 'Valencia', true, 2),
-('Carrera 789', '15D', 'Sevilla', true, 3);

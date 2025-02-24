@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Cliente;
 import com.daw.services.ClienteService;
+import com.daw.services.dtos.ClienteDTO;
 
 @RestController
 @RequestMapping("/clientes")
@@ -33,9 +34,9 @@ public class ClienteController {
 		return ResponseEntity.ok(this.clienteService.findAll());
 	}
 
-	// Obtenner un cliente según su ID
+	// Obtener un cliente según su ID (antiguo método)
 
-	@GetMapping("/{idCliente}")
+	/*@GetMapping("/{idCliente}")
 	public ResponseEntity<Cliente> findById(@PathVariable int idCliente) {
 		Optional<Cliente> cliente = this.clienteService.findById(idCliente);
 		if (cliente.isEmpty()) {
@@ -43,7 +44,14 @@ public class ClienteController {
 		}
 
 		return ResponseEntity.ok(cliente.get());
-	}
+	}*/
+	
+	// Obtener un cliente según su ID con la dirección activa
+	
+	@GetMapping("/{idCliente}")
+    public ClienteDTO obtenerCliente(@PathVariable int idCliente) {
+        return clienteService.obtenerClientePorId(idCliente);
+    }
 
 	// Crear un cliente
 

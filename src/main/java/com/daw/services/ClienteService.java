@@ -9,7 +9,9 @@ import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.stereotype.Service;
 
 import com.daw.persistence.entities.Cliente;
+import com.daw.persistence.entities.Direccion;
 import com.daw.persistence.repositories.ClienteRepository;
+import com.daw.services.dtos.ClienteDTO;
 
 @Service
 public class ClienteService {
@@ -25,9 +27,30 @@ public class ClienteService {
 		return this.clienteRepository.existsById(idCliente);
 	}
 
-	public Optional<Cliente> findById(int idCliente) {
+	// Antiguo método para buscar un cliente por ID
+	
+	/*public Optional<Cliente> findById(int idCliente) {
 		return this.clienteRepository.findById(idCliente);
-	}
+	}*/
+	
+	public ClienteDTO obtenerClientePorId(Integer idCliente) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        Direccion direccionActiva = cliente.getDirecciones().stream()
+                .filter(Direccion::isActiva)
+                .findFirst()
+                .orElse(null);
+
+        ClienteDTO clienteDTO = new ClienteDTO();
+        clienteDTO.setId(cliente.getId());
+        clienteDTO.setNombre(cliente.getNombre());
+        clienteDTO.setEmail(cliente.getEmail());
+        clienteDTO.setDireccionActiva(direccionActiva);
+        
+        return clienteDTO;
+
+    }
 
 	public Cliente create(Cliente cliente) {
 		return this.clienteRepository.save(cliente);
