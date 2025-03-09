@@ -8,9 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.daw.persistence.entities.Cliente;
 import com.daw.persistence.entities.Pedido;
 import com.daw.persistence.entities.PizzaPedido;
 import com.daw.persistence.repositories.PedidoRepository;
+import com.daw.services.dtos.ClienteDTO;
 import com.daw.services.dtos.PedidoDTO;
 import com.daw.services.dtos.PizzaPedidoInputDTO;
 import com.daw.services.dtos.PizzaPedidoOutputDTO;
@@ -57,7 +59,13 @@ public class PedidoService {
 
 		pedido = this.pedidoRepository.save(pedido);
 
-		pedido.setCliente(this.clienteService.findById(pedido.getIdCliente()).get());
+		ClienteDTO clienteDTO = this.clienteService.obtenerClientePorId(pedido.getIdCliente());
+		Cliente cliente = new Cliente();
+		cliente.setId(clienteDTO.getId());
+		cliente.setNombre(clienteDTO.getNombre());
+		cliente.setEmail(clienteDTO.getEmail());
+
+		pedido.setCliente(cliente);		
 		pedido.setPizzaPedidos(new ArrayList<PizzaPedido>());
 
 		return PedidoMapper.toDto(pedido);
